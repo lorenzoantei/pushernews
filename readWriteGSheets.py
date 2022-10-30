@@ -30,3 +30,4 @@ quit()
 # https://docs.gspread.org/en/latest/oauth2.html
 # https://console.cloud.google.com
 # sbotsbotsbotsbo@gmail.com
+# https://docs.google.com/spreadsheets/d/1aZWPpD4-JfML9f2gO0t_6X9Xzwe-f5gZO1yA3Z-gKWs/edit#gid=0
