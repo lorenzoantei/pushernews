@@ -1,0 +1,8 @@
+# fly.toml file generated for abac-pusher-news on 2022-10-31T16:40:05+01:00
+
+app = "abac-pusher-news"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[env]

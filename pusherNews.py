@@ -138,21 +138,6 @@ class MyClient(discord.Client):
                             if debug: print('Awake! Restarting loop...\n')
                         # if debug: print('questo non dovrebbe stamparsi')
                     except Exception as e: print(e)
-                    # except:
-                        # if debug: print('creo un nuovo messaggio')
-                        # titolo_annuncio = a_annuncio.text
-                        # print ('******** IL TITOLO È '+titolo_annuncio+' *********')
-                        # if titolo_annuncio != 'Leggi' or titolo_annuncio != 'Chiudi':
-                        #     # MESSAGGI SEGRETERIA - SALTA SE TITOLO "CHIUDI"
-                        #     print ('CREO NUOVO MESSAGGIO')
-                        #     nuovo_annuncio = str(get_title(link_area))+'\n'+titolo_annuncio+'\n'+link_annuncio
-                        #     await channel.send(nuovo_annuncio) # invia su discord
-                        #     print(nuovo_annuncio)
-                        #     import datetime
-                        #     TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        #     sheet.sheet1.insert_row([INDEX, TIMESTAMP, link_area, link_annuncio, titolo_annuncio, nuovo_annuncio])
-                        #     INDEX = INDEX +1 #dumb ma evita rinterrogo GSheet API
-                        #     time.sleep(2)
                 
                 # endfor loop link annunci
                 if debug: print('end loop links')
