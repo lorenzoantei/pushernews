@@ -15,7 +15,6 @@ def get_variable(var_name: str) -> bool: # dotenv_smart_bool.py
         raise ValueError(f'Invalid value `{value}` for variable `{var_name}`')
     return value in TRUE_
 
-
 debug = get_variable('DEBUG')
 if debug: print('DEBUG IS ON!!1!')
 
