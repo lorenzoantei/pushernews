@@ -1,13 +1,26 @@
 print('StalkerNews discord bot \n')
-debug = 1
 
 from discord.ext import tasks
 import discord
 import time
 from dotenv import load_dotenv
-load_dotenv()
-if debug: print('loaded dotenv')
 import os
+load_dotenv()
+
+def get_variable(var_name: str) -> bool: # dotenv_smart_bool.py
+    TRUE_=('true', '1', 't') # Add more entries if you want, like: `y`, `yes`, ...
+    FALSE_=('false', '0', 'f')
+    value = os.getenv(var_name, 'False').lower()  # return `False` if variable is not set. To raise an error, change `'False'` to `None`
+    if value not in TRUE_ + FALSE_:
+        raise ValueError(f'Invalid value `{value}` for variable `{var_name}`')
+    return value in TRUE_
+
+
+debug = get_variable('DEBUG')
+if debug: print('DEBUG IS ON!!1!')
+
+if debug: print('loaded dotenv')
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 CANALE_NEWS = int(os.getenv('CHANNEL_NEWS_ID'))
 INT_CHECK = int(os.getenv('INTERVAL_CHECK_TIME'))
@@ -158,8 +171,5 @@ class MyClient(discord.Client):
     async def before_my_task(self):
         await self.wait_until_ready()  # wait until the bot logs in
 
-
 client = MyClient(intents=discord.Intents.default())
 client.run(TOKEN)
-
-# https://docs.google.com/spreadsheets/d/1aZWPpD4-JfML9f2gO0t_6X9Xzwe-f5gZO1yA3Z-gKWs/edit#gid=0
