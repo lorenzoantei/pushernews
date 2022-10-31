@@ -23,7 +23,7 @@ if debug: print('loaded dotenv')
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 CANALE_NEWS = int(os.getenv('CHANNEL_NEWS_ID'))
-INT_CHECK = int(os.getenv('INTERVAL_CHECK_TIME'))
+INTERVAL_CHECK_TIME = int(os.getenv('INTERVAL_CHECK_TIME'))
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -39,7 +39,7 @@ class MyClient(discord.Client):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
 
-    @tasks.loop(seconds=INT_CHECK)  # task runs every 5000 seconds
+    @tasks.loop(seconds=INTERVAL_CHECK_TIME)  # task runs every 5000 seconds
     async def checkNews(self):
         if debug: print('\n*********\nBegin new loop\n*********\n')
         channel = self.get_channel(CANALE_NEWS)  # channel ID goes here
