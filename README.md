@@ -9,17 +9,19 @@ Search for new articles in [accademiacarrara.it/it/segreteria/comunicazioni](htt
 
 ## Getting started
 Get an Google Account with configurated Google Sheet API as service ( w/ Gcreds.json)
-More info:
-- 
+more info:
 - [https://docs.gspread.org/en/latest/oauth2.html](gspread docs - oauth2)
 - [https://console.cloud.google.com](Google Cloud Console)
 
-`
-pip install -r requirements.txt
-# or pip install discord python-dotenv requests bs4 oauth2client gspread
-mv .env.example .env
-nano .env # tune you env
-python3 pusherNews.py
-`
+Then...
+
+`git clone git@github.com:lorenzoantei/pushernews.git`\
+` virtualenv dev`\
+`source dev/bin/activate`\
+`pip install -r requirements.txt # or pip install discord python-dotenv requests bs4 oauth2client gspread`\
+`mv .env.example .env`\
+`nano .env # tune you env`\
+`python3 pusherNews.py`
+
 
 sbotsbotsbotsbo@gmail.com
