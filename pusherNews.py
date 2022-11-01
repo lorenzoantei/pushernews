@@ -16,6 +16,7 @@ def get_variable(var_name: str) -> bool: # dotenv_smart_bool.py
     return value in TRUE_
 
 debug = get_variable('DEBUG')
+autoclose = get_variable('AUTOCLOSE_MODE')
 if debug: print('DEBUG IS ON!!1!')
 
 if debug: print('loaded dotenv')
@@ -142,6 +143,7 @@ class MyClient(discord.Client):
                 if debug: print('end loop links')
             # endfor div annunci
             print('All done ;)')
+            if autoclose: quit()
             ### FINE ABACSCRAPE
 
             # if new_link_annunci:
