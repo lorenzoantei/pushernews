@@ -2,4 +2,4 @@ tests/
 .env
 *json
 __pycache__/
-logs/
+logs/*
