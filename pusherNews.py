@@ -1,10 +1,10 @@
 print('StalkerNews discord bot \n')
 
+import discord, time, datetime, os
 from discord.ext import tasks
-import discord
-import time
+
+
 from dotenv import load_dotenv
-import os
 load_dotenv()
 
 def get_variable(var_name: str) -> bool: # dotenv_smart_bool.py
@@ -15,14 +15,19 @@ def get_variable(var_name: str) -> bool: # dotenv_smart_bool.py
         raise ValueError(f'Invalid value `{value}` for variable `{var_name}`')
     return value in TRUE_
 
+def get_timestamp():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 debug = get_variable('DEBUG')
 autoclose = get_variable('AUTOCLOSE_MODE')
+
 if debug: print('DEBUG IS ON!!1!')
 
 if debug: print('loaded dotenv')
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 CANALE_NEWS = int(os.getenv('CHANNEL_NEWS_ID'))
+MOD_ID = int(os.getenv('MOD_ID'))
 INTERVAL_CHECK_TIME = int(os.getenv('INTERVAL_CHECK_TIME'))
 
 class MyClient(discord.Client):
@@ -42,7 +47,8 @@ class MyClient(discord.Client):
     @tasks.loop(seconds=INTERVAL_CHECK_TIME)  # task runs every 5000 seconds
     async def checkNews(self):
         if debug: print('\n*********\nBegin new loop\n*********\n')
-        channel = self.get_channel(CANALE_NEWS)  # channel ID goes here
+        channel_news = self.get_channel(CANALE_NEWS)  # channel ID goes here
+        channel_mod = self.get_channel(MOD_ID)  # channel ID goes here
         if debug: print('set channel ID')
 
         import requests, bs4
@@ -79,7 +85,7 @@ class MyClient(discord.Client):
                 return "🎉 C'è un nuovo messaggio dalla Segreteria!"
         
         def fix_vision(link_area):
-            if debug: print('fix_vision()')
+            if debug: print('right soup for CURRENT AREA...')
             if link_area == LINKS_AREA[0]:
                 return soup.find_all('div', class_='grid-item')
             elif link_area == LINKS_AREA[1]:
@@ -93,10 +99,12 @@ class MyClient(discord.Client):
         for link_area in LINKS_AREA:
 
             CURRENT_LINK = PRE_LINK + link_area #FOR EACH LINK IN LINKS[]
-            if debug: print('CURRENT_LINK => '+CURRENT_LINK)
+            if debug: print('CURRENT AREA => '+CURRENT_LINK)
+            if debug: print('request...')
             response = requests.get(CURRENT_LINK) #fa una get request ed ottiene l'html della pagina
             response.raise_for_status() #genera eccezione se risponde con errore
-            if debug: print('request done')
+            if debug: print('...request done!\n')
+
             soup=bs4.BeautifulSoup(response.text, 'html.parser') #prende la funzione BeautifulSoup da bs4 che estrae il testo dalla response in formato html(.parser)
             if debug: print('soup is ready! Take and eat, all of you...')
 
@@ -106,32 +114,30 @@ class MyClient(discord.Client):
             for div_annuncio in reversed(div_annunci): #reversed per rispettare l'ordine di pubblicazione
                 
                 a_annunci = div_annuncio.find_all('a')
-                if debug: 
-                    if a_annunci: print('anchors links loaded!')
-                # if debug: print(a_annunci)
+                if debug: print('anchors links loaded!')
 
                 if debug: print('Matching results...')
                 for a_annuncio in a_annunci:
                     link_annuncio = str(a_annuncio.get('href'))
-                    titolo_annuncio = a_annuncio.text
+                    
                     if not link_annuncio.startswith('http'):
                         link_annuncio = PRE_LINK+link_annuncio # AGGIUNGERE FULL PATH - PROBLEMI CON LINK ESTERNI
-                    if debug: print('link_annuncio => \n'+link_annuncio+'\n')
-                    
+                    if debug: print('link_annuncio --> '+link_annuncio)
+                    titolo_annuncio = a_annuncio.text
+                    if debug: print('titolo_annuncio --> '+a_annuncio.text)
                     try:
                         if debug: print('Check if already present...')
                         if link_annuncio in values_list or titolo_annuncio in values_title_list:
-                            print('skipped')
+                            print('Already present. Skipped!')
                         else:
                             
-                            # if debug: print ('******** IL TITOLO È '+titolo_annuncio+' *********')
                             if debug: print ('\n********CREATE NEW MESSAGE:')
                             nuovo_annuncio = str(get_title(link_area))+'\n'+titolo_annuncio+'\n'+link_annuncio
-                            await channel.send(nuovo_annuncio) # invia su discord
+                            await channel_news.send(nuovo_annuncio) # invia su discord
                             if debug: print(nuovo_annuncio+'\n ********\n')
-                            import datetime
-                            TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                            sheet.sheet1.insert_row([INDEX, TIMESTAMP, link_area, link_annuncio, titolo_annuncio, nuovo_annuncio])
+                            
+                            #TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            sheet.sheet1.insert_row([INDEX, get_timestamp(), link_area, link_annuncio, titolo_annuncio, nuovo_annuncio])
                             INDEX = INDEX +1 #dumb ma evita rinterrogo GSheet API
                             if debug: print('writed into sheet. Now sleep 2 secs')
                             time.sleep(2)
@@ -144,6 +150,7 @@ class MyClient(discord.Client):
             # endfor div annunci
         #end for LINKS
         print('All done ;)')
+        await channel_mod.send(get_timestamp()+' - Nuovo check completato. Torna a vivere la tua vita') # invia su discord
         if autoclose: quit()
         
 

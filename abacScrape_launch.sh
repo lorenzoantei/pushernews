@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo -u lorenzo DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send "abacScrape - starting new scrape..."
-notify-send ""
+#notify-send ""
 
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 echo "current position is "$SCRIPTPATH
