@@ -142,15 +142,9 @@ class MyClient(discord.Client):
                 # endfor loop link annunci
                 if debug: print('end loop links')
             # endfor div annunci
-            print('All done ;)')
-            if autoclose: quit()
-            ### FINE ABACSCRAPE
-
-            # if new_link_annunci:
-            #     await channel.send('nuovi!!')
-            # else:
-            #     await channel.send('NESSUN NUOVO ANNUNCIO!!')
         #end for LINKS
+        print('All done ;)')
+        if autoclose: quit()
         
 
     @checkNews.before_loop
