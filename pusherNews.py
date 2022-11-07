@@ -19,16 +19,20 @@ def get_timestamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 debug = get_variable('DEBUG')
+is_mobile = get_variable(os.getenv('IS_MOBILE'))
 autoclose = get_variable('AUTOCLOSE_MODE')
 
 if debug: print('DEBUG IS ON!!1!')
-
+if is_mobile: print('MOBILE MODE')
 if debug: print('loaded dotenv')
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 CANALE_NEWS = int(os.getenv('CHANNEL_NEWS_ID'))
 MOD_ID = int(os.getenv('MOD_ID'))
 INTERVAL_CHECK_TIME = int(os.getenv('INTERVAL_CHECK_TIME'))
+
+TOKEN_TELEGRAM_BOT = str(os.getenv('TOKEN_TELEGRAM_BOT'))
+CHANNEL_CHAT_ID = str(os.getenv('CHANNEL_CHAT_ID'))
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -46,6 +50,7 @@ class MyClient(discord.Client):
 
     @tasks.loop(seconds=INTERVAL_CHECK_TIME)  # task runs every 5000 seconds
     async def checkNews(self):
+        
         if debug: print('\n*********\nBegin new loop\n*********\n')
         channel_news = self.get_channel(CANALE_NEWS)  # channel ID goes here
         channel_mod = self.get_channel(MOD_ID)  # channel ID goes here
@@ -134,6 +139,11 @@ class MyClient(discord.Client):
                             if debug: print ('\n********CREATE NEW MESSAGE:')
                             nuovo_annuncio = str(get_title(link_area))+'\n'+titolo_annuncio+'\n'+link_annuncio
                             await channel_news.send(nuovo_annuncio) # invia su discord
+
+                            #invia su telegram
+                            url = f"https://api.telegram.org/bot{TOKEN_TELEGRAM_BOT}/sendMessage?chat_id={CHANNEL_CHAT_ID}&text={nuovo_annuncio}"
+                            requests.get(url)
+
                             if debug: print(nuovo_annuncio+'\n ********\n')
                             
                             #TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -151,7 +161,8 @@ class MyClient(discord.Client):
         #end for LINKS
         print('All done ;)')
         await channel_mod.send(get_timestamp()+' - Nuovo check completato. Torna a vivere la tua vita') # invia su discord
-        if autoclose: quit()
+        if autoclose: 
+            if not is_mobile: quit()
         
 
     @checkNews.before_loop
