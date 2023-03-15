@@ -50,11 +50,11 @@ class MyClient(discord.Client):
     async def checkNews(self):
         if debug: print('\n*********\nBegin new loop\n*********\n')
         channel_news = self.get_channel(CANALE_NEWS)  # channel ID goes here
-        extra_message = "Annuncio - modifiche orario\nVedi le modifiche nel documento Google 'Orario Nuove Tecnologie Dell'Arte 2022 - 2023'\nhttps://docs.google.com/spreadsheets/d/1pGywKfGcuHYTYgJCOfmZJMo2L5aPAAr5c1RJLuh8G4c/notify/show?rev=120&fromRev=113&s=AM5m-fhY8kXZhzBMEPeLkEj7fLAx9zTkIw"
+        extra_message = "Ciao a tutti! \n\naccademiacarrara.it è down da questa mattina :/ \n Il bot riprenderà a funzionare appena il sito tornerà disponibile..."
         await channel_news.send(extra_message) # invia su discord
 
         #invia su telegram
-        url = f"https://api.telegram.org/bot{TOKEN_TELEGRAM_BOT}/sendMessage?chat_id={CHANNEL_CHAT_ID}&text={nuovo_annuncio}"
+        url = f"https://api.telegram.org/bot5458532842:AAFbqZ3KakJ8KvRrwBwNIUDk-zFbpRgbEwE/sendMessage?chat_id='-1001853721028'&text='test'"
         requests.get(url)
         if autoclose: 
             if not is_mobile: quit()

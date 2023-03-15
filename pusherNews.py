@@ -19,18 +19,19 @@ def get_timestamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 debug = get_variable('DEBUG')
+if debug: print('DEBUG IS ON!!1!')
+
 is_mobile = get_variable(os.getenv('IS_MOBILE'))
 autoclose = get_variable('AUTOCLOSE_MODE')
-
-if debug: print('DEBUG IS ON!!1!')
 if is_mobile: print('MOBILE MODE')
-if debug: print('loaded dotenv')
 
+# DISCORD
 TOKEN = os.getenv('DISCORD_TOKEN')
 CANALE_NEWS = int(os.getenv('CHANNEL_NEWS_ID'))
 MOD_ID = int(os.getenv('MOD_ID'))
 INTERVAL_CHECK_TIME = int(os.getenv('INTERVAL_CHECK_TIME'))
 
+#
 TOKEN_TELEGRAM_BOT = str(os.getenv('TOKEN_TELEGRAM_BOT'))
 CHANNEL_CHAT_ID = str(os.getenv('CHANNEL_CHAT_ID'))
 
