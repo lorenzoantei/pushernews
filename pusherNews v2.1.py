@@ -2,7 +2,6 @@ import discord, time, datetime, os
 from discord.ext import tasks
 from dotenv import load_dotenv
 import requests, bs4
-
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import json
@@ -39,9 +38,6 @@ def get_variable(var_name: str) -> bool:
         raise ValueError(f'Invalid value `{value}` for variable `{var_name}`')
     return value in TRUE_
 
-
-
-
 print('StalkerNews discord bot \n')
 
 load_dotenv()
@@ -53,8 +49,6 @@ if debug: print('loaded dotenv')
 TESTINGMODE = get_variable('TESTINGMODE')
 if debug: 
     if TESTINGMODE: print('TESTINGMODE')
-
-
 
 # GOOGLE SHEET
 scopes = [
