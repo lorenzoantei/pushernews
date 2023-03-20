@@ -1,1 +1,0 @@
-https://api.telegram.org/bot5458532842:AAFbqZ3KakJ8KvRrwBwNIUDk-zFbpRgbEwE/sendMessage?chat_id=-1001853721028&text=%27Ciao%20a%20tutti!%20\n\naccademiacarrara.it%20%C3%A8%20down%20da%20questa%20mattina%20:/%20\n%20Il%20bot%20riprender%C3%A0%20a%20funzionare%20appena%20il%20sito%20torner%C3%A0%20disponibile...%27

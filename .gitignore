@@ -3,3 +3,4 @@ tests/
 *json
 __pycache__/
 logs/*
+to_remove/
