@@ -88,11 +88,27 @@ class MyClient(discord.Client): # Definizione della classe MyClient che eredita 
         # variabili usate dalla chiamata async
         self.sheet = file.open("pusherNews")  #open sheet
         self.values_list = self.sheet.sheet1.col_values(4)
+
+       
+
         self.values_title_list = self.sheet.sheet1.col_values(5)
         self.INDEX = len(self.values_list)
 
-        self.tab_correnti = self.sheet.worksheet('CORRENTI')
-        self.tab_archive = self.sheet.worksheet('ARCHIVE')
+
+        # Apri il foglio di lavoro
+        # client = gspread.authorize(creds)
+        sheet = file.open('pusherNews').worksheet('CORRENTI')
+        # print(sheet)
+        
+
+
+
+        # quit()
+
+        # self.tab_archive = self.sheet.worksheet('ARCHIVE')
+        # self.tab_correnti = self.sheet.worksheet('CORRENTI')
+        self.tab_correnti = file.open('pusherNews').worksheet('CORRENTI')
+        self.tab_archive = file.open('pusherNews').worksheet('ARCHIVE')
 
         self.array_cleanup = [] # init array pulizia voci
 
@@ -194,7 +210,7 @@ class MyClient(discord.Client): # Definizione della classe MyClient che eredita 
 
                                 if debug: print(nuovo_annuncio+'\n ********\n')
                                 
-                                print(self.INDEX)
+                                # print(self.INDEX)
 
                                 self.sheet.sheet1.insert_row([self.INDEX, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), link_area, link_annuncio, titolo_annuncio, nuovo_annuncio])
 
